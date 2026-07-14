@@ -1,29 +1,29 @@
 import css from "./NoteForm.module.css";
 import { Formik, Form, Field, type FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useId } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useId } from "react";
 import type { Note } from "../../types/note";
 import { createNote } from '../../services/noteService'
 import { useQueryClient } from "@tanstack/react-query";
 
-const NoteFormValues: Note = {
+type NoteFormValues = Omit<Note, "id">;
+const Values: NoteFormValues= {
   title: "",
-  id: "",
   tag: "Todo",
   content: "",
+  createdAt: "",
+  updatedAt: "",
 };
 interface NoteFormProps {
   onClose: () => void;
-  
 }
 
 
-export default function NoteForm({onClose}: NoteFormProps) {
-    const fieldId = useId();
+export default function NoteForm({ onClose }: NoteFormProps) {
+   const fieldId = useId();
   const queryClient = useQueryClient();
   
-   
   const FormSchema = Yup.object().shape({
     title: Yup.string()
       .min(3, "Title must be at least 3 characters")
@@ -36,15 +36,14 @@ export default function NoteForm({onClose}: NoteFormProps) {
   });
 
     const mutation = useMutation({
-        mutationFn: (values: Note) => createNote(values)  ,
+        mutationFn: (values: NoteFormValues) => createNote(values)  ,
 
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['notes']})
         }
     })
 
-    
-  const handleSubmit = (values: Note, actions: FormikHelpers<Note>) => {
+  const handleSubmit = (values: NoteFormValues, actions: FormikHelpers<NoteFormValues>) => {
       mutation.mutate(values, {
           onSuccess:()=> {
               actions.resetForm()
@@ -55,12 +54,11 @@ export default function NoteForm({onClose}: NoteFormProps) {
   
   return (
     <Formik
-      initialValues={NoteFormValues}
+      initialValues={Values}
       onSubmit={handleSubmit}
       validationSchema={FormSchema}
-      className={css.form}
     >
-      <Form>
+      <Form className={css.form}>
         <fieldset className={css.formGroup}>
           <label htmlFor={`${fieldId}-title`}>Title</label>
           <Field

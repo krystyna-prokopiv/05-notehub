@@ -22,7 +22,12 @@ export default function Modal({children, onClose}: ModalProps) {
         }
         document.addEventListener('keydown', handleKeyDown)
         document.body.style.overflow = 'hidden'
-    })
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown)
+        document.body.style.overflow = ''
+        }
+    },[onClose])
    
 
     return createPortal(<div

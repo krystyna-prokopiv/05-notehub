@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { Note } from "../types/note";
+export type CreateNoteParams = Omit<Note, "id">;
 
 export interface NotesQueryParams {
   search: string;
@@ -24,13 +25,11 @@ export async function fetchNotes(data: NotesQueryParams) {
   return res.data;
 }
 
-export async function createNote({ title, tag, content }: Note) {
+export async function createNote(values: CreateNoteParams) {
   const { data } = await axios.post<Note>(
     "https://notehub-public.goit.study/api/notes",
     {
-      tag,
-      title,
-      content,
+      values,
     },
     {
       headers: {
@@ -42,10 +41,14 @@ export async function createNote({ title, tag, content }: Note) {
   return data;
 }
 
-export async function deleteNote(id: string): Promise<void> {
-  await axios.delete(`https://notehub-public.goit.study/api/notes/${id}`, {
-    headers: {
-      Authorization: `Bearer ${myKey}`,
+export async function deleteNote(id: string): Promise<Note> {
+  const { data } = await axios.delete<Note>(
+    `https://notehub-public.goit.study/api/notes/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${myKey}`,
+      },
     },
-  });
+  );
+  return data;
 }

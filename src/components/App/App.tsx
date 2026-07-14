@@ -8,7 +8,7 @@ import type { NotesQueryParams } from '../../services/noteService.ts'
 import Pagination from '../Pagination/Pagination.tsx'
 import Modal from '../Modal/Modal.tsx'
 import NoteForm from '../NoteForm/NoteForm.tsx'
-import SearchForm from '../SearchBox/SearchBox.tsx'
+import SearchBox from '../SearchBox/SearchBox.tsx'
 
 
 function App() {
@@ -48,19 +48,17 @@ function App() {
       page: newPage,
     }))
   }
+  console.log(data);
+  
 
   return (
     
       <div className={css.app}>
       <header className={css.toolbar}
       > 
-        <SearchForm defaultValue={search.search} handleSearchInput={handleSearchInput}  />
+        <SearchBox defaultValue={search.search} onChange={handleSearchInput}  />
         {isSuccess && totalPages > 0 && <Pagination page={search.page} setPage={handlePageChange} totalPages={totalPages} />}
         <button className={css.button} onClick={handleClick}>Create note +</button>
-        
-
-        
-		{/* Компонент SearchBox */}
       </header>
       {isSuccess && data.notes.length > 0 && <NoteList notes={data.notes} />}
       {isModalOpen && <Modal onClose={closeModal}>
