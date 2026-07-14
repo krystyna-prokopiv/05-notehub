@@ -14,7 +14,7 @@ export async function fetchNotes(data: NotesQueryParams) {
   const res = await axios.get<{ notes: Note[]; totalPages: number }>(
     "https://notehub-public.goit.study/api/notes",
     {
-      data,
+      params: data,
       headers: {
         Authorization: `Bearer ${myKey}`,
       },
@@ -27,12 +27,25 @@ export async function fetchNotes(data: NotesQueryParams) {
 export async function createNote({ title, tag, content }: Note) {
   const { data } = await axios.post<Note>(
     "https://notehub-public.goit.study/api/notes",
-    { tag, title, content },
+    {
+      tag,
+      title,
+      content,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${myKey}`,
+      },
+    },
   );
 
   return data;
 }
 
-export async function deleteNote(id: Note): Promise<void> {
-  await axios.delete(`https://notehub-public.goit.study/api/notes${id}`);
+export async function deleteNote(id: string): Promise<void> {
+  await axios.delete(`https://notehub-public.goit.study/api/notes/${id}`, {
+    headers: {
+      Authorization: `Bearer ${myKey}`,
+    },
+  });
 }

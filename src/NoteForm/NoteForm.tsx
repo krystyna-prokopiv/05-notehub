@@ -17,7 +17,13 @@ interface NoteFormProps {
   onClose: () => void;
   
 }
-const Schema = Yup.object().shape({
+
+
+export default function NoteForm({onClose}: NoteFormProps) {
+    const fieldId = useId();
+  const queryClient = useQueryClient();
+  
+    const Schema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
   });
   const OrderFormSchema = Yup.object().shape({
@@ -31,9 +37,6 @@ const Schema = Yup.object().shape({
       .required("Tag is required"),
   });
 
-export default function NoteForm({onClose}: NoteFormProps) {
-    const fieldId = useId();
-    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: (values: Note) => createNote(values)  ,
 
@@ -52,7 +55,6 @@ export default function NoteForm({onClose}: NoteFormProps) {
       })
   };
   
-
   return (
     <Formik
       initialValues={NoteFormValues}
