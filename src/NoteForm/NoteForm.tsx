@@ -23,10 +23,8 @@ export default function NoteForm({onClose}: NoteFormProps) {
     const fieldId = useId();
   const queryClient = useQueryClient();
   
-    const Schema = Yup.object().shape({
-    username: Yup.string().required("Username is required"),
-  });
-  const OrderFormSchema = Yup.object().shape({
+   
+  const FormSchema = Yup.object().shape({
     title: Yup.string()
       .min(3, "Title must be at least 3 characters")
       .max(50, "Title is too long")
@@ -59,7 +57,7 @@ export default function NoteForm({onClose}: NoteFormProps) {
     <Formik
       initialValues={NoteFormValues}
       onSubmit={handleSubmit}
-      validationSchema={OrderFormSchema}
+      validationSchema={FormSchema}
       className={css.form}
     >
       <Form>
