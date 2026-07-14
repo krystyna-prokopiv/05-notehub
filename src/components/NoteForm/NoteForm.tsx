@@ -7,13 +7,11 @@ import type { Note } from "../../types/note";
 import { createNote } from '../../services/noteService'
 import { useQueryClient } from "@tanstack/react-query";
 
-type NoteFormValues = Omit<Note, "id">;
+type NoteFormValues = Omit<Note, "id" | "createdAt" | "updatedAt">;
 const Values: NoteFormValues= {
   title: "",
   tag: "Todo",
   content: "",
-  createdAt: "",
-  updatedAt: "",
 };
 interface NoteFormProps {
   onClose: () => void;

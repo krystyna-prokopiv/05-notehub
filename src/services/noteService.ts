@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { Note } from "../types/note";
-export type CreateNoteParams = Omit<Note, "id">;
+export type CreateNoteParams = Omit<Note, "id" | "createdAt" | "updatedAt">;
 
 export interface NotesQueryParams {
   search: string;
@@ -30,8 +30,6 @@ export async function createNote(values: CreateNoteParams) {
     "https://notehub-public.goit.study/api/notes",
     {
       values,
-    },
-    {
       headers: {
         Authorization: `Bearer ${myKey}`,
       },
