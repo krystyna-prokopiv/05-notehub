@@ -28,8 +28,8 @@ export async function fetchNotes(data: NotesQueryParams) {
 export async function createNote(values: CreateNoteParams) {
   const { data } = await axios.post<Note>(
     "https://notehub-public.goit.study/api/notes",
+    values,
     {
-      values,
       headers: {
         Authorization: `Bearer ${myKey}`,
       },
