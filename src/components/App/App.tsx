@@ -1,10 +1,10 @@
 import { useState,  } from 'react'
-import { fetchNotes } from "../services/noteService.ts"
+import { fetchNotes } from "../../services/noteService.ts"
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useDebouncedCallback } from 'use-debounce'
 import css from './App.module.css'
 import NoteList from '../NoteList/NoteList.tsx'
-import type { NotesQueryParams } from '../services/noteService.ts'
+import type { NotesQueryParams } from '../../services/noteService.ts'
 import Pagination from '../Pagination/Pagination.tsx'
 import Modal from '../Modal/Modal.tsx'
 import NoteForm from '../NoteForm/NoteForm.tsx'
